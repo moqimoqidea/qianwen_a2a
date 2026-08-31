@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "qwen-a2a-weather"
+version = "0.1.0"
+description = "A2A 0.3 weather-agent MVP for Qwen platform integration"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "a2a-sdk[http-server]==0.3.26",
+  "httpx>=0.28.1,<0.29",
+  "pydantic-settings>=2.8,<3",
+  "sse-starlette>=2.4.1,<3",
+  "uvicorn>=0.34,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.25,<1",
+  "ruff>=0.11,<1",
+]
+
+[project.scripts]
+qwen-a2a = "qwen_a2a.main:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/qwen_a2a"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC"]
