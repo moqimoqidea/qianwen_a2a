@@ -42,6 +42,32 @@ A2A_PUBLIC_URL=https://千问平台可访问的公网域名
 qwen-a2a
 ```
 
+### 后台运行测试服务
+
+项目提供了后台启动和停止脚本。脚本会自动切换到项目根目录，从 `.env` 读取配置，
+将输出追加到 `logs/qwen-a2a.log`，并把进程号写入 `logs/qwen-a2a.pid`：
+
+```bash
+./scripts/start-server.sh
+tail -f logs/qwen-a2a.log
+./scripts/stop-server.sh
+```
+
+等价的手动 `nohup` 命令如下：
+
+```bash
+mkdir -p logs
+nohup .venv/bin/qwen-a2a >> logs/qwen-a2a.log 2>&1 &
+echo $! > logs/qwen-a2a.pid
+```
+
+手动停止服务：
+
+```bash
+kill "$(cat logs/qwen-a2a.pid)"
+rm -f logs/qwen-a2a.pid
+```
+
 健康检查：
 
 ```bash
